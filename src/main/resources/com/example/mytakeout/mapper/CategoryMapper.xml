@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+| Field         | Type         | Null | Key | Default | Extra          |
+
+| id            | int          | NO   | PRI | NULL    | auto_increment |
+| category_name | varchar(30)  | YES  | UNI | NULL    |                |
+| detail        | varchar(100) | YES  |     | NULL    |                |
+
+ -->
+<mapper namespace="com.example.mytakeout.mapper.CategoryMapper">
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id"> insert into
+        category(category_name,detail) values(#{categoryName},#{detail}) </insert>
+    <select id="getAllSorted" resultType="com.example.mytakeout.entity.Category"> select * from
+        category order by id ASC </select>
+    <select id="getById" resultType="com.example.mytakeout.entity.Category"> select * from category
+        where id=#{id} </select>
+
+    <!-- updateCategory -->
+    <update id="updateCategory"> update category <set>
+            <if test="categoryName != null"> category_name=#{categoryName},</if>
+            <if
+                test="detail != null">detail=#{detail},</if>
+        </set> where id=#{id} </update>
+
+    <!-- getByName -->
+
+    <select id="getByName">select * from category where category_name = #{categoryName} </select>
+
+    <!-- deleteCategoryById -->
+
+    <delete id="deleteCategoryById"> 
+        SET FOREIGN_KEY_CHECKS=0; 
+        delete d from dish d INNER JOIN(
+            select dish_id from category_dish where category_id = #{id} 
+            ) p 
+        on d.id = p.dish_id;
+        delete from category_dish where category_id = #{id};
+        delete from category where id = #{id}; 
+        SET  FOREIGN_KEY_CHECKS=1; 
+    </delete>
+</mapper>

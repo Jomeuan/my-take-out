@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+| Field       | Type | Null | Key | Default | Extra          |
+
+| id          | int  | NO   | PRI | NULL    | auto_increment |
+| category_id | int  | YES  | MUL | NULL    |                |
+| dish_id     | int  | YES  | MUL | NULL    |                |
+
+ -->
+<mapper namespace="com.example.mytakeout.mapper.CategoryDishMapper">
+    <select id="getDishIdByCategoryId"> select dish_id from category_dish where category_id =
+        #{categoryId}; </select>
+
+    <!-- addCategoryDish -->
+
+    <insert id="addCategoryDish" useGeneratedKeys="true" keyProperty="id"> insert into
+        category_dish(category_id,dish_id) values (#{categoryId},#{dishId}) </insert>
+</mapper>
