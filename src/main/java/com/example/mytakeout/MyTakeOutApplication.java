@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //TODO: 编写全局的我的配置信息类
 //第二次push？
-
+//第三次用终端的git试试
 @SpringBootApplication
 public class MyTakeOutApplication {
 
