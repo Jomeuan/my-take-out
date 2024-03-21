@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+| Field      | Type         | Null | Key | Default | Extra          |
+
+| id         | int          | NO   | PRI | NULL    | auto_increment |
+| dish_name  | varchar(30)  | YES  | UNI | NULL    |                |
+| detail     | varchar(100) | YES  |     | NULL    |                |
+| image_path | varchar(30)  | YES  |     | NULL    |                |
+| price      | float(7,3)   | YES  |     | NULL    |                |
+
+ -->
+
+<mapper namespace="com.example.mytakeout.mapper.DishMapper">
+    <insert id="addDish" useGeneratedKeys="true" keyProperty="id"> insert into
+        dish(dish_name,detail,image_path,price) values (#{dishName}, #{detail},#{imagePath},#{price}
+        ); </insert>
+    <delete id="deleteDishById"> 
+        delete from category_dish where dish_id = #{id};
+        delete from dish where id= #{id}; 
+    </delete>
+
+    <!-- TODO: 空数组不会跳过 -->
+    <select id="getDishesById" resultType="com.example.mytakeout.entity.Dish"> select * from dish
+        where id in <foreach collection="list" item="item" index="index" open="(" separator=","
+            close=")"> #{item} </foreach>
+    </select>
+
+    <!-- updateDish -->
+
+    <update id="updateDish">
+        update dish 
+        <set>
+            <if test="dishName != null">dish_name=#{dishName},</if>
+            <if test="detail != null">detail=#{detail},</if>
+            <if test="imagePath !=null">image_path = #{imgePath},</if>
+            <if test="price != null">price = #{price},</if>
+        </set> 
+        where id=#{id} 
+    </update>
+
+    <!-- getDishesByCateagoryId --> 
+
+    <select id="getDishesByCateagoryId" resultType="com.example.mytakeout.entity.Dish">
+        SELECT d.*
+        FROM dish d
+        INNER JOIN category_dish cd
+        ON cd.dish_id = d.id
+        WHERE cd.category_id = #{id};
+    </select>
+</mapper>
