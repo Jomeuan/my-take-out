@@ -34,12 +34,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         (authorize) -> authorize
                                 .requestMatchers("/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/category", "/dish")
-                                .hasAnyAuthority(Authority.ROLE_ADMIN, Authority.ROLE_STORE)
-                                .requestMatchers(HttpMethod.PUT, "/category", "/dish")
-                                .hasAnyAuthority(Authority.ROLE_ADMIN, Authority.ROLE_STORE)
-                                .requestMatchers(HttpMethod.DELETE, "/category", "/dish")
-                                .hasAnyAuthority(Authority.ROLE_ADMIN, Authority.ROLE_STORE)
+                                .requestMatchers(HttpMethod.POST, "/category","/dish").hasAnyAuthority(Authority.ROLE_ADMIN,Authority.ROLE_STORE)
+                                .requestMatchers(HttpMethod.PUT, "/category","/dish").hasAnyAuthority(Authority.ROLE_ADMIN,Authority.ROLE_STORE)
+                                .requestMatchers(HttpMethod.DELETE, "/category","/dish").hasAnyAuthority(Authority.ROLE_ADMIN,Authority.ROLE_STORE)
                                 .anyRequest().permitAll())
                 .cors((cors) -> {
                     cors.configurationSource(corsConfigurationSource());
