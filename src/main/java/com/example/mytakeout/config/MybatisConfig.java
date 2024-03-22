@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.mytakeout.mapper.AuthorityMapper;
-import com.example.mytakeout.mapper.CategoryDishMapper;
 import com.example.mytakeout.mapper.CategoryMapper;
 import com.example.mytakeout.mapper.DishMapper;
 import com.example.mytakeout.mapper.UserMapper;
@@ -32,7 +31,6 @@ public class MybatisConfig {
         configuration.addMapper(UserMapper.class);
         configuration.addMapper(AuthorityMapper.class);
         configuration.addMapper(CategoryMapper.class);
-        configuration.addMapper(CategoryDishMapper.class);
         configuration.addMapper(DishMapper.class);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         return sqlSessionFactory;

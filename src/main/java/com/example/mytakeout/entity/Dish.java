@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
  * dish_name VARCHAR(30) NOT NULL,
  * introduction VARCHAR(100),
  * price DECIMAL(10, 4),
- * image_path VARCHAR(30)
+ * image_path VARCHAR(30),
+ * dish_sort INT
  * );
  */
 
@@ -31,4 +32,9 @@ public class Dish {
     private String introduction;
     private String imagePath;
     private Double price;
+
+    public static final String DISH_NAME = "dish_name" ;
+    public static final String INTRODUCTION = "introduction" ;
+    public static final String IMAGE_PATH = "price" ;
+    public static final String PRICE = "image_path" ;
 }

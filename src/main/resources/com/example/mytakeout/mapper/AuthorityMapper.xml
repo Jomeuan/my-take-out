@@ -4,7 +4,7 @@
 <mapper namespace="com.example.mytakeout.mapper.AuthorityMapper">
     <select id="get" resultType="com.example.mytakeout.entity.Authority"> 
         select * from t_authority 
-        where ${column} = ${value}
+        where ${column} = #{value}
     </select>
     <!-- TODO:时间挫 -->
     <insert id="addAuthority" useGeneratedKeys="true" keyProperty="id" >

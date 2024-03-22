@@ -3,6 +3,7 @@ package com.example.mytakeout.entity;
 import java.sql.Timestamp;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * CREATE TABLE IF NOT EXISTS t_order(
@@ -13,11 +14,18 @@ import lombok.Data;
  * remark VARCHAR(100) COMMENT "订单的备注"
  * );
  */
+
 @Data
-public class Order {
+@NoArgsConstructor
+public class Order implements Entity<Order> {
     private Long id;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
-    private String orderState;
+    private Integer orderState;
     private String remark;
+
+    @Override
+    public boolean isLegalData(Order data) {
+        return id > 0 && orderState>=-128 && orderState<=127;
+    }
 }

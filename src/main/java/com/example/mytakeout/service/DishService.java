@@ -6,8 +6,8 @@ import com.example.mytakeout.entity.Category;
 import com.example.mytakeout.entity.Dish;
 
 public interface DishService {
-    public Dish getDishById(Integer id)throws Exception;
-    public List<Dish> getDishesByCategoryId(Integer categoryId)throws Exception;
+    public Dish getDishById(Long id)throws Exception;
+    public List<Dish> getDishesByCategoryId(Long categoryId)throws Exception;
     public Dish addDish(Category category,Dish dish)throws Exception;
     public Integer updateDish(Dish dish)throws Exception;
     /**

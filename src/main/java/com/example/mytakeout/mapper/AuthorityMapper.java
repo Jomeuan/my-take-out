@@ -20,8 +20,8 @@ public interface AuthorityMapper {
             @Param("value") String value);
 
     public int addAuthority(Authority authority);
-    
-    //TODO: public int deleteAuthority
+
+    // TODO: public int deleteAuthority
 
     public int updateAuthority(Authority authority);
 }

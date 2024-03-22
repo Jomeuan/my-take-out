@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mytakeout.mapper.UserMapper">
-    <select id="getUserByName" resultType="com.example.mytakeout.entity.User"> select * from `user` where user_name = #{username} </select>
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id"> insert into `user`
-        (user_name,secret_code,valid) values (#{userName},#{secretCode},#{valid}) </insert>
+    <select id="get"> 
+        select * from t_dish 
+        where ${columnName} = #{value}
+    </select>
+    <select id="getUserByName" resultType="com.example.mytakeout.entity.User">
+         select * from t_user where user_name = #{userName} 
+    </select>
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id"> 
+        insert into `user` (gmt_create,gmt_modified,user_name,user_password,user_state) 
+        values (now(),now(),#{userName},#{userPassword},#{userState})
+    </insert>
+
+    <!-- updateUser --> 
+
+    <update id="updateUser">
+        update t_user 
+        <set>
+            <if test="1">gmt_modified=now(),</if>
+            <if test="userName != null">user_name=#{userName},</if>
+            <if test="userPassword != null">user_password=#{userPassword},</if>
+            <if test="userState !=null">user_state = #{userState},</if>
+        </set> 
+        where id=#{id} 
+    </update>    
+
+    <!-- deleteUser --> 
+
+    <delete id="deleteUser">
+        delete form t_authority where user_id=#{id}
+        delete from t_user where id=#{id}
+    </delete>
 </mapper>

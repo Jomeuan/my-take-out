@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS t_dish (
     dish_name VARCHAR(30) NOT NULL,
     introduction VARCHAR(100),
     price DECIMAL(10, 4),
-    image_path VARCHAR(30)
+    image_path VARCHAR(30),
+    dish_sort INT
 );
 CREATE TABLE IF NOT EXISTS t_fk_category_dish(
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

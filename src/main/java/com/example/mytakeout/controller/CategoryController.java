@@ -71,7 +71,7 @@ public class CategoryController {
     @GetMapping("/{categoryId}/describe")
     public R<String> getCategoryDetail(@PathVariable Integer categoryId) {
         try {
-            String s = categoryService.getDetail(categoryId);
+            String s = categoryService.getIntroduction(categoryId);
             return R.success(s);
         } catch (Exception e) {
             return R.fail(e.getMessage());

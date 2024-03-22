@@ -1,52 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-
-| Field      | Type         | Null | Key | Default | Extra          |
-
-| id         | int          | NO   | PRI | NULL    | auto_increment |
-| dish_name  | varchar(30)  | YES  | UNI | NULL    |                |
-| detail     | varchar(100) | YES  |     | NULL    |                |
-| image_path | varchar(30)  | YES  |     | NULL    |                |
-| price      | float(7,3)   | YES  |     | NULL    |                |
-
- -->
 
 <mapper namespace="com.example.mytakeout.mapper.DishMapper">
-    <insert id="addDish" useGeneratedKeys="true" keyProperty="id"> insert into
-        dish(dish_name,detail,image_path,price) values (#{dishName}, #{detail},#{imagePath},#{price}
-        ); </insert>
+    <insert id="addDish" useGeneratedKeys="true" keyProperty="id"> 
+        insert into
+        t_dish(gmt_create,gmt_modified,dish_name,introduction,image_path,price,dish_sort) 
+        values (now(),now(),#{dishName}, #{introduction},#{imagePath},#{price},#{dishSort}); 
+    </insert>
     <delete id="deleteDishById"> 
-        delete from category_dish where dish_id = #{id};
-        delete from dish where id= #{id}; 
+        delete from t_fk_category_dish where dish_id = #{id};
+        delete from dish where id = #{id}; 
     </delete>
-
-    <!-- TODO: 空数组不会跳过 -->
-    <select id="getDishesById" resultType="com.example.mytakeout.entity.Dish"> select * from dish
-        where id in <foreach collection="list" item="item" index="index" open="(" separator=","
-            close=")"> #{item} </foreach>
-    </select>
 
     <!-- updateDish -->
 
     <update id="updateDish">
-        update dish 
+        update t_dish 
         <set>
+            <if test="1">gmt_modified=now(),</if>
             <if test="dishName != null">dish_name=#{dishName},</if>
-            <if test="detail != null">detail=#{detail},</if>
+            <if test="introduction != null">detail=#{detail},</if>
             <if test="imagePath !=null">image_path = #{imgePath},</if>
             <if test="price != null">price = #{price},</if>
+            <if test="dish_sort != null">dish_sort = #{dishSort},</if>
         </set> 
         where id=#{id} 
     </update>
 
-    <!-- getDishesByCateagoryId --> 
+     <!-- TODO: 空数组不会跳过 -->
+     <select id="getDishesById" resultType="com.example.mytakeout.entity.Dish"> 
+        select * from t_dish
+        where id in 
+        <foreach collection="list" item="item" index="index" 
+                open="(" separator=","  close=")"> 
+            #{item} 
+        </foreach>
+    </select>
 
-    <select id="getDishesByCateagoryId" resultType="com.example.mytakeout.entity.Dish">
+    <!-- getDishesByCateagory --> 
+
+    <select id="getDishesByCateagory" resultType="com.example.mytakeout.entity.Dish">
         SELECT d.*
-        FROM dish d
-        INNER JOIN category_dish cd
+        FROM t_dish d
+        INNER JOIN t_fk_category_dish cd
         ON cd.dish_id = d.id
         WHERE cd.category_id = #{id};
+    </select>
+
+    <!-- get --> 
+
+    <select id="get"> 
+        select *
+        from t_dish 
+        where ${columnName} = #{value} 
     </select>
 </mapper>

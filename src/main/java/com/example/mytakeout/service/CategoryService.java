@@ -15,7 +15,7 @@ public interface CategoryService {
 
     public List<Category> getAllSorted() throws Exception;
 
-    public String getDetail(Integer id) throws Exception;
+    public String getIntroduction(Long id) throws Exception;
 
     /**
      * 不需要修改的字段设置为空，注意id应当为空

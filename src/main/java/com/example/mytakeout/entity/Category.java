@@ -31,7 +31,7 @@ public class Category implements Entity<Category> {
 
     @Override
     public boolean isLegalData(Category data) {
-        return categoryName.length()<30;
+        return id>0 && categoryName.length()<30;
     }
 
 

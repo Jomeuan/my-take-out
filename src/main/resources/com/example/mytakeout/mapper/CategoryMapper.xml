@@ -11,44 +11,39 @@
  -->
 <mapper namespace="com.example.mytakeout.mapper.CategoryMapper">
     <insert id="addCategory" useGeneratedKeys="true" keyProperty="id"> 
-        insert into category(gmt_create,gmt_modified,category_name,introduction,category_sort)
+        insert into t_category(gmt_create,gmt_modified,category_name,introduction,category_sort)
         values(now(),now(),#{categoryName},#{introduction},#{categorySort}) 
     </insert>
     <select id="getAllSorted" resultType="com.example.mytakeout.entity.Category"> 
         select * from
-        category order by id ASC 
-    </select>
-    <select id="getById" resultType="com.example.mytakeout.entity.Category"> 
-        select * from category
-        where id=#{id} 
+        t_category order by category_sort ASC 
     </select>
 
     <!-- updateCategory -->
-    <update id="updateCategory"> update category <set>
+    <update id="updateCategory"> 
+        update t_category <set>
+            <if test="1" >gmt_modified=now(),</if>
             <if test="categoryName != null"> category_name=#{categoryName},</if>
             <if test="detail != null">detail=#{detail},</if>
         </set> where id=#{id} 
     </update>
 
-    <!-- getByName -->
-
-    <select id="getByName">
-        select * 
-        from category 
-        where category_name = #{categoryName} 
-    </select>
-
     <!-- deleteCategoryById -->
 
-    <delete id="deleteCategoryById"> 
-        SET FOREIGN_KEY_CHECKS=0; 
-        delete d from dish d INNER JOIN(
-            select dish_id from category_dish where category_id = #{id} 
-            ) p 
+    <delete id="deleteCategory"> 
+        delete from t_category where id = #{id};
+
+        delete d 
+        from dish d
+        inner join (
+            select dish_id
+            from t_fk_category_dish fk
+            where fk.category_id = #{id}
+        ) p 
         on d.id = p.dish_id;
-        delete from category_dish where category_id = #{id};
-        delete from category where id = #{id}; 
-        SET  FOREIGN_KEY_CHECKS=1; 
+
+        delete fk from t_fk_category_dish fk
+        where fk.category_id = #{id};
     </delete>
 
     <!-- get --> 
@@ -57,6 +52,6 @@
         select (c.id,c.category_name,d.introduction,category_sort) 
         from t_category c inner join t_category_detail d 
         on c.id = d.category_id
-        where ${columnName} = ${value} 
+        where ${columnName} = #{value} 
     </select>
 </mapper>

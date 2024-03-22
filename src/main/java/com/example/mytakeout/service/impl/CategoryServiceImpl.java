@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category addCategory(Category category) throws Exception{
+    public Category addCategory(Category category) throws Exception {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             CategoryMapper categoryMapper = session.getMapper(CategoryMapper.class);
             categoryMapper.addCategory(category);
@@ -38,11 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
             if (msg.contains("Duplicate"))
                 throw new Exception("菜单名字重复");
             // TODO:数据格式不对（太长了、溢出了）
-            //TODO: not
-            else if(msg.contains("cannot be null")){
+            // TODO: not
+            else if (msg.contains("cannot be null")) {
                 throw new Exception("属性不能为空");
-            }
-            else {
+            } else {
                 log.error(msg, e);
                 throw new Exception(ExceptionUtils.UNKNOWN_EXCEPTION_MSG);
             }
@@ -63,24 +62,36 @@ public class CategoryServiceImpl implements CategoryService {
             String msg = e.getMessage();
             if (msg.contains("Duplicate"))
                 throw new Exception("菜单名字重复");
-            else{
+            else {
                 log.error(e.getMessage(), e);
-            throw new Exception(ExceptionUtils.UNKNOWN_EXCEPTION_MSG);
+                throw new Exception(ExceptionUtils.UNKNOWN_EXCEPTION_MSG);
             }
-            
+
         }
     }
-
+    private final String NOT_EXISIT = "不存在此菜单";
+    private final String UPDATE_FAIL = "未能更新";
+    private final String 
     @Override
-    public String getDetail(Integer id) throws Exception {
+    public String getIntroduction(Long id) throws Exception {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             CategoryMapper categoryMapper = session.getMapper(CategoryMapper.class);
-            return categoryMapper.getById(id).getDetail();
+            List<Category> list = categoryMapper.get("id", String.valueOf(id));
+            if(list.size()==0)throw new Exception(NOT_EXISIT);
+            return 
+                    .get(0).getIntroduction();
         }
-        // 可能存在的异常：
+        // 可能存在的异常：没有此id的菜单
         catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new Exception(ExceptionUtils.UNKNOWN_EXCEPTION_MSG);
+            String msg = e.getMessage();
+            if (msg.equals(UPDATE_FAIL))
+                throw e;
+            else if (msg.contains("Duplicate"))
+                throw new Exception("菜单名字重复");
+            else {
+                log.error(e.getMessage(), e);
+                throw new Exception(ExceptionUtils.UNKNOWN_EXCEPTION_MSG);
+            }
         }
     }
 

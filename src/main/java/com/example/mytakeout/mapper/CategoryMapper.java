@@ -8,15 +8,20 @@ import org.apache.ibatis.annotations.Select;
 import com.example.mytakeout.entity.Category;
 
 public interface CategoryMapper {
+    /**
+     * 增加
+     * @param category
+     * @throws Exception
+     */
     public void addCategory(Category category) throws Exception;
 
-    public int deleteCategoryById(Category category) throws Exception;
-
-    public List<Category> getAllSorted() throws Exception;
-
-    public Category getById(Integer id) throws Exception;
-
-    public Category getByName(String name) throws Exception;
+    /**
+     * 删除category，category对应的dish ，外键<category,dish>
+     * @param category
+     * @return
+     * @throws Exception
+     */
+    public int deleteCategory(Category category) throws Exception;
 
     public int updateCategory(Category category) throws Exception;
 
@@ -28,4 +33,6 @@ public interface CategoryMapper {
      * @return
      */
     public List<Category> get(@Param("columnName") String colName, @Param("value") String value);
+
+    public List<Category> getAllSorted() throws Exception;
 }

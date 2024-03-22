@@ -10,3 +10,6 @@ service层（间接受到mapper层影响）
 
 上一层只用 下一层的接口 禁止跨层调用 
 构造空的实体类用new T() lombok中的@NoArgsConstructor
+
+
+TODO: 更新时间和创建时间是可以default的 :(

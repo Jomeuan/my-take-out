@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mytakeout.mapper.OrderMapper">
+
+    <!-- get --> 
+
+    <select id="get"> 
+        select * from t_order where ${columnName} = #{value} 
+    </select> 
+    <select id="getOrderDish">
+        select od.id,od.order_id,od.dish_id,dish_quantity 
+        from t_fk_order_dish od inner join t_order o
+        on o.id = od.order_id
+        where o.id = #{id}
+    </select>
+
+    <!-- addOrder --> 
+
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order(gmt_create,gmt_modified,orderState,remark)
+        values(now(),now(),#{orderState},#{remark}) 
+    </insert>    
+
+    <!-- addOrderDish --> 
+
+    <insert id="addOrderDish" useGeneratedKeys="true" keyProperty="id">
+        insert into t_fk_order_dish(gmt_create,gmt_modified,dish_id,order_id,dish_quantity)
+        values
+        <foreach collection="list" item="item" index="index" separator=","  > 
+                (now(),now(),#{item.dishId},#{order.id},#{item.dishQuantity}) 
+        </foreach>
+        
+    </insert>
+
+    <!-- deleteOrder --> 
+
+    <delete id="deleteOrder">
+        delete from t_fk_order_dish where order_id = #{id};
+        delete from t_order where id = #{id};
+    </delete>
+</mapper>
