@@ -10,23 +10,33 @@
 
  -->
 <mapper namespace="com.example.mytakeout.mapper.CategoryMapper">
-    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id"> insert into
-        category(category_name,detail) values(#{categoryName},#{detail}) </insert>
-    <select id="getAllSorted" resultType="com.example.mytakeout.entity.Category"> select * from
-        category order by id ASC </select>
-    <select id="getById" resultType="com.example.mytakeout.entity.Category"> select * from category
-        where id=#{id} </select>
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id"> 
+        insert into category(gmt_create,gmt_modified,category_name,introduction,category_sort)
+        values(now(),now(),#{categoryName},#{introduction},#{categorySort}) 
+    </insert>
+    <select id="getAllSorted" resultType="com.example.mytakeout.entity.Category"> 
+        select * from
+        category order by id ASC 
+    </select>
+    <select id="getById" resultType="com.example.mytakeout.entity.Category"> 
+        select * from category
+        where id=#{id} 
+    </select>
 
     <!-- updateCategory -->
     <update id="updateCategory"> update category <set>
             <if test="categoryName != null"> category_name=#{categoryName},</if>
-            <if
-                test="detail != null">detail=#{detail},</if>
-        </set> where id=#{id} </update>
+            <if test="detail != null">detail=#{detail},</if>
+        </set> where id=#{id} 
+    </update>
 
     <!-- getByName -->
 
-    <select id="getByName">select * from category where category_name = #{categoryName} </select>
+    <select id="getByName">
+        select * 
+        from category 
+        where category_name = #{categoryName} 
+    </select>
 
     <!-- deleteCategoryById -->
 

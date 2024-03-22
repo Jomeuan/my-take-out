@@ -17,7 +17,7 @@ import lombok.Data;
 // 一个用户可以有多个权限
 @Data
 @AllArgsConstructor
-public class Authority {
+public class Authority implements Entity<Authority> {
     private Long id;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
@@ -30,4 +30,9 @@ public class Authority {
      * 实际应当对应店铺的管理员工，他不能修改用户
      */
     public static String ROLE_STORE = "ROLE_S";
+
+    @Override
+    public boolean isLegalData(Authority data) {
+        return userId != null && authority != null;
+    }
 }

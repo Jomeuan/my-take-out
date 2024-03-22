@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.mytakeout.mapper.AuthorityMapper">
-    <select id="getAuthorityByUserId" resultType="com.example.mytakeout.entity.Authority"> 
+    <select id="get" resultType="com.example.mytakeout.entity.Authority"> 
         select * from t_authority 
         where ${column} = ${value}
     </select>
     <!-- TODO:时间挫 -->
     <insert id="addAuthority" useGeneratedKeys="true" keyProperty="id" >
-        insert into t_authority(user_id,authority) values (#{userId},#{authority})
+        insert into t_authority(gmt_create,gmt_modified,user_id,authority) 
+        values (now(),now(),#{userId},#{authority})
     </insert>
 
     <!-- updateAuthority --> 
@@ -22,4 +23,4 @@
         </set>
         where if = #{id}
     </update>
-</mapper>
+  </mapper>

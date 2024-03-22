@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * CREATE TABLE IF NOT EXISTS t_dish (
@@ -18,7 +19,7 @@ import lombok.Data;
  */
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 /**
  * 菜品
  */

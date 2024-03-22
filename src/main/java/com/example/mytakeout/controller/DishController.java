@@ -40,7 +40,7 @@ public class DishController {
     // }
 
     @GetMapping("/{dishId}")
-    public R<Dish> getDish(@PathVariable Integer dishId) {
+    public R<Dish> getDish(@PathVariable Long dishId) {
         try {
             Dish dish = dishService.getDishById(dishId);
             return R.success(dish);
@@ -57,9 +57,10 @@ public class DishController {
      * @return
      */
     @PostMapping("/{categoryId}")
-    public R<Dish> addDish(@PathVariable Integer categoryId, @RequestBody Dish dish) {
+    public R<Dish> addDish(@PathVariable Long categoryId, @RequestBody Dish dish) {
         try {
-            Category category = new Category(categoryId, null, null);
+            Category category = new Category();
+            category.setId(categoryId);
             dish = dishService.addDish(category, dish);
             return R.success(dish);
         } catch (Exception e) {
@@ -68,7 +69,7 @@ public class DishController {
     }
     //TODO: 存储图片
     @PostMapping("/img/{dishId}")
-    public R<String> addImg(@PathVariable Integer dishId, MultipartFile file) {
+    public R<String> addImg(@PathVariable Long dishId, MultipartFile file) {
         try {
             log.info(file.getName());
             return R.success("su");
@@ -95,9 +96,10 @@ public class DishController {
     }
 
     @DeleteMapping("/{dishId}")
-    public R<Dish> deleteDish(@PathVariable Integer dishId) {
+    public R<Dish> deleteDish(@PathVariable Long dishId) {
         try {
-            Dish dish = new Dish(dishId, null, null, null, null);
+            Dish dish = new Dish();
+            dish.setId(dishId);
             dishService.deleteDish(dish);
             return R.success(dish);
         } catch (Exception e) {
