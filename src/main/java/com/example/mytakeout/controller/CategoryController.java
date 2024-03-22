@@ -114,7 +114,7 @@ public class CategoryController {
     @DeleteMapping("/{categoryId}")
     R<Integer> deleteCategory(@PathVariable Integer categoryId){
         try {
-            Category category = new Category(categoryId, null, null);
+            Category category = new Category();
             Integer r = categoryService.deleteCategory(category);
             return R.success(r);
         } catch (Exception e) {

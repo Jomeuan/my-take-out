@@ -40,4 +40,13 @@
         delete from category where id = #{id}; 
         SET  FOREIGN_KEY_CHECKS=1; 
     </delete>
+
+    <!-- get --> 
+
+    <select id="get"> 
+        select (c.id,c.category_name,d.introduction,category_sort) 
+        from t_category c inner join t_category_detail d 
+        on c.id = d.category_id
+        where ${columnName} = ${value} 
+    </select>
 </mapper>

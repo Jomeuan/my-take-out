@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
-mysql> describe authority;
-
-| Field     | Type        | Null | Key | Default | Extra          |
-
-| id        | int         | NO   | PRI | NULL    | auto_increment |
-| user_id   | int         | NO   | MUL | NULL    |                |
-| authority | varchar(10) | NO   |     | NULL    |                |
--->
-
 <mapper namespace="com.example.mytakeout.mapper.AuthorityMapper">
-    <select id="getAuthorityByUserId" resultType="String"> select authority from `authority` where
-        user_id = #{userId} </select>
+    <select id="getAuthorityByUserId" resultType="com.example.mytakeout.entity.Authority"> 
+        select * from t_authority 
+        where ${column} = ${value}
+    </select>
+    <!-- TODO:时间挫 -->
     <insert id="addAuthority" useGeneratedKeys="true" keyProperty="id" >
-        insert into authority(user_id,authority) values (#{userId},#{authority})
+        insert into t_authority(user_id,authority) values (#{userId},#{authority})
     </insert>
+
+    <!-- updateAuthority --> 
+
+    <update id="updateAuthority">
+        update t_authority
+        <set>
+            <if test="1">gmt_modified = NOW() </if>
+            <if test="userId != null">user_id = #{userId} </if>
+            <if test="authority != null">authority = #{authority} </if>
+        </set>
+        where if = #{id}
+    </update>
 </mapper>

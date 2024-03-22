@@ -43,7 +43,13 @@ public class MyUserDetailsService implements UserDetailsService {
                 System.out.println("user not exists");
                 throw new UsernameNotFoundException("user not exists");
             } else {
-                List<String> authorities = authorityMapper.getAuthorityByUserId(user.getId());
+                // List<String> authorities = authorityMapper.getAuthorityByUserId(user.getId());
+                // User result = new User(
+                //         user.getUserName(),
+                //         user.getSecretCode(),
+                //         AuthorityUtils.createAuthorityList(authorities));
+                // return result;
+                List<String> authorities = authorityMapper.get(user.getId());
                 User result = new User(
                         user.getUserName(),
                         user.getSecretCode(),
